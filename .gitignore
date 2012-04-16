@@ -1,0 +1,7 @@
+.idea
+atlassian-ide-plugin.xml
+silex.phar
+vendor/
+composer.lock
+composer.phar
+app/cache/

@@ -1,0 +1,4 @@
+#obras li {
+    filter: progid:DXImageTransform.Microsoft.Shadow(color='#DCDDDE', Direction=135, Strength=5);
+    -ms-filter: progid:DXImageTransform.Microsoft.Shadow(color='#DCDDDE', Direction=135, Strength=5);
+}

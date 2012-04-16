@@ -1,0 +1,44 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html lang="{{ app.session.get('locale') }}">
+<head>
+    <meta charset="utf-8">
+    <meta content="index,follow" name="robots">
+    <meta content="{% block description %}{{ 'common.meta.description' | trans }}{% endblock %}" name="description">
+    <meta content="{% block keywords %}{{ 'common.meta.keywords' | trans }}{% endblock %}" name="keywords">
+    <meta content="7 days" name="revisit-after">
+    <title>SylviaEstruch.com{% block title %}{% endblock %}</title>
+    <link href="/css/01-normalize.css" type="text/css" rel="stylesheet">
+    <link href="/css/10-style.css" type="text/css" rel="stylesheet">
+    <link href="/css/30-lightbox.css" type="text/css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+<div id="container">
+    <header>
+        <nav id="langs">
+            <ul>
+                {% if app.session.get('locale') != 'es' %}<li><a href="{{ path('homepage', {'locale' : 'es'}) }}">Castellano</a></li>{% endif %}
+                {% if app.session.get('locale') != 'ca' %}<li><a href="{{ path('homepage', {'locale' : 'ca'}) }}">Català</a></li>{% endif %}
+                {% if app.session.get('locale') != 'en' %}<li><a href="{{ path('homepage', {'locale' : 'en'}) }}">English</a></li>{% endif %}
+            </ul>
+        </nav>
+        <div id="logo">
+            <a href="{{ path('homepage', {'locale' : app.session.get('locale') }) }}">
+                <img src="/images/logo.gif" />
+            </a>
+            <h1>
+                <span>{{ 'common.header.description1' | trans }}</span>
+                <span>{{ 'common.header.description2' | trans }}</span>
+            </h1>
+        </div>
+    </header>
+    <nav id="menu">
+    </nav>
+    {% block content %}{% endblock %}
+    <footer>www.sylviaestruch.com</footer>
+</div>
+</body>
+</html>
+{% endspaceless %}

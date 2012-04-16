@@ -1,0 +1,41 @@
+common:
+  meta:
+    description: Sylvia Estruch - Plastic artist, Theater director, furniture and art restorer, objects and spaces designer
+    keywords: Sylvia Estruch, Artist, Theater, art, furniture, design
+  header:
+    description1: Plastic artist, Theater director, furniture
+    description2: and art restorer, objects and spaces designer
+  secciones:
+    biografia: Biografía
+    pintura: Painting
+    restauracion: Restoration
+    teatro: Theater
+    diseño: Design
+    contacto: Contact
+    # -- Subcategorías pintura
+    realista: Realistic
+    transicion: Transition
+    impresionista: Impressionist
+    post-impresionista: Post-Impressionist
+    creacion: Creation
+    ultimascreaciones: Latest creations
+    # -- Subcategorías teatro
+    obrasteatro: Theater plays
+    performances: Performances
+
+contacto:
+  estudio: Studios at Vilanova i la Geltrú (Barcelona) and Xerta (Tortosa, Tarragona)
+  contactar: You can contact me by e-mail
+  nombre: Name and surname
+  email: E-mail
+  mensaje: Message
+  enviar: Send
+  mailok: Message sent ok
+  
+frasesjs:
+  name_err: Name / surname cannot be blank
+  mail_err1: E-mail cannot be blank
+  mail_err2: E-mail must be valid
+  text_err: Message cannot be blank
+  msg_ok: Message sent correctly
+  msg_err: Error sending message  

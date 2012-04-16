@@ -1,0 +1,41 @@
+common:
+  meta:
+    description: Sylvia Estruch - Artista plàstica, Directora de teatre, Resturadora de mobiliari i art, Dissenyadora d'objectes i espais
+    keywords: Sylvia Estruch, Artista, Teatre, art, mobiliari, disseny
+  header:
+    description1: Artista plàstica, Directora de teatre, Resturadora de mobiliari
+    description2: i art, Dissenyadora d'objectes i espais
+  secciones:
+    biografia: Biografia
+    pintura: Pintura
+    restauracion: Restauració
+    teatro: Teatre
+    diseño: Disseny
+    contacto: Contacte
+    # -- Subcategorías pintura
+    realista: Realista
+    transicion: Transició
+    impresionista: Impressionista
+    post-impresionista: Post-Impressionista
+    creacion: Creació
+    ultimascreaciones: Últimas creaciones
+    # -- Subcategorías teatro
+    obrasteatro: Obres de teatre
+    performances: Performances
+
+contacto:
+  estudio: Estudis a Vilanova i la Geltrú (Barcelona) i Xerta (Tortosa, Tarragona)
+  contactar: Pots contactar amb mi per e-mail
+  nombre: Nom i cognoms
+  email: E-mail
+  mensaje: Missatge
+  enviar: Enviar
+  mailok: Missatge enviat correctament
+
+frasesjs:
+  name_err: Nom / cognoms no pot ser blanc
+  mail_err1: E-mail no pot ser blanc
+  mail_err2: E-mail ha de ser vàlid
+  text_err: Missatge no pot ser blanc
+  msg_ok: Missatge enviat correctament
+  msg_err: Error enviant missatge
