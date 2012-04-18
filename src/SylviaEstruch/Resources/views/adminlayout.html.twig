@@ -1,0 +1,28 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>.: Sylvia Estruch Admin :.</title>
+    <meta charset="utf-8">
+    <meta content="noindex, nofollow" name="robots">
+    <meta content="7 days" name="revisit-after">
+    {% block stylesheets %}
+    <link href="/css/admin.css" type="text/css" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+<div id="contenedor">
+    <div id="header">
+        <h2>Àrea Administració</h2>
+    </div>
+    {% block content %}{% endblock %}
+    <div id="footer">www.sylviaestruch.com</div>
+</div>
+{% block javascripts %}
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/jquery.lightbox-0.5.pack.js"></script>
+<script type="text/javascript" src="/js/admin.js"></script>
+{% endblock %}
+</body>
+</html>
+{% endspaceless %}

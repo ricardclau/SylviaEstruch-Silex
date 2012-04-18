@@ -4,4 +4,4 @@ silex.phar
 vendor/
 composer.lock
 composer.phar
-app/cache/
+data/cache/

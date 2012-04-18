@@ -35,9 +35,23 @@
         </div>
     </header>
     <nav id="menu">
+        <ul class="sections clearfix">
+            <li><a href="{{ path('biografia', {'locale' : app.session.get('locale') }) }}">{{ 'common.secciones.biografia' | trans }}</a></li>
+            <li><a href="{{ path('pintura', {'locale' : app.session.get('locale') }) }}">{{ 'common.secciones.pintura' | trans }}</a></li>
+            <li><a href="{{ path('restauracion', {'locale' : app.session.get('locale') }) }}">{{ 'common.secciones.restauracion' | trans }}</a></li>
+            <li><a href="{{ path('disenyo', {'locale' : app.session.get('locale') }) }}">{{ 'common.secciones.diseño' | trans }}</a></li>
+            <li><a href="{{ path('teatro', {'locale' : app.session.get('locale') }) }}">{{ 'common.secciones.teatro' | trans }}</a></li>
+            <li><a href="{{ path('contacto' , {'locale' : app.session.get('locale') }) }}">{{ 'common.secciones.contacto' | trans }}</a></li>
+        </ul>
+        {% block subsections %}
+        {% endblock %}
     </nav>
     {% block content %}{% endblock %}
     <footer>www.sylviaestruch.com</footer>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.lightbox-0.5.pack.js"></script>
+    <script type="text/javascript" src="/js/funciones.js"></script>
+    <script type="text/javascript" src="{{ path('frasesjs', {'locale' : app.session.get('locale') }) }}"></script>
 </div>
 </body>
 </html>
