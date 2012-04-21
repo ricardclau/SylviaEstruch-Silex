@@ -1,11 +1,37 @@
 <?php
 
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @var Silex\Application
+ */
 $app = new Application();
+
+/**
+ * Configuration
+ */
 $app['debug'] = true;
+$app['config.langs'] = array('ca', 'es', 'en');
+$app['config.langs.regexp'] = array('ca|es|en');
+/**
+ * Charset?
+ */
+$app['db.options'] = array(
+    'driver'   => 'pdo_mysql',
+    'dbname'   => 'sylviaestruch',
+    'host'     => 'localhost',
+    'user'     => 'root',
+    'password' => null,
+    'charset'  => 'utf-8',
+);
+
+/**
+ * Providers
+ */
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.class_path' => __DIR__ . '/../vendor/twig/twig/lib',
     'twig.path'       => array(
@@ -16,6 +42,10 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     ),
 ));
 $app['twig']->addExtension(new Symfony\Bridge\Twig\Extension\RoutingExtension($app['url_generator']));
+
+/**
+ * Before filter setting language from URL
+ */
 $app->before(function () use ($app) {
     /**
      * This must be done here as access to $app['request'] is restricted outside this scope
@@ -52,9 +82,11 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('adminlayout', $app['twig']->loadTemplate('adminlayout.html.twig'));
 });
 
-
+/**
+ * Static URLS
+ */
 $app->get('/', function (Silex\Application $app) {
-    $locale = $app['request']->getPreferredLanguage(array('ca', 'es', 'en'));
+    $locale = $app['request']->getPreferredLanguage($app['config.langs']);
 
     return $app->redirect(
         $app['url_generator']->generate('homepage', array('locale' => $locale))
@@ -66,9 +98,9 @@ $app->get('/{locale}/', function (Silex\Application $app) {
 })->bind('homepage');
 
 $app->get('/{locale}/frases.js', function (Silex\Application $app) {
-    // Set Proper Content-Type
-    // Also set Expires Headers
-    return $app['twig']->render('static/frases.js.twig');
+    // @todo Set proper HTTP cache headers
+    $content = $app['twig']->render('static/frases.js.twig');
+    return new Response($content, 200, array('content-type' => 'application/javascript'));
 })->bind('frasesjs');
 
 $app->get('/{locale}/contacto', function (Silex\Application $app) {
@@ -80,6 +112,9 @@ $app->get('/{locale}/biografia', function (Silex\Application $app) {
 })->bind('biografia');
 
 $app->get('/{locale}/pintura', function (Silex\Application $app) {
+    $pinturaService = new \SylviaEstruch\Service\PinturaService($app['db']);
+    $cats = $pinturaService->getCategories();
+    var_dump($cats); exit();
     return $app['twig']->render('static/home.html.twig');
 })->bind('pintura');
 
