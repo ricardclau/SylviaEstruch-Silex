@@ -6,6 +6,9 @@ use Silex\Application;
 
 class PinturaService
 {
+    /**
+     * @var \Doctrine\DBAL\Connection
+     */
     private $db;
 
     public function __construct($db = null)
@@ -28,11 +31,17 @@ class PinturaService
     public function getCategories()
     {
         $sql = 'SELECT * FROM categorias_pintura';
+
         return $this->db->fetchAll($sql);
     }
 
     public function getCategoryPaintings($catId)
     {
-        $sql = 'SELECT * FROM pinturas where cat';
+        $sql = 'SELECT * FROM pinturas where categorias_pintura_id = :catId';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue('catId', $catId);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
 }

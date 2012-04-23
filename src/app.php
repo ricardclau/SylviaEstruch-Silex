@@ -114,9 +114,22 @@ $app->get('/{locale}/biografia', function (Silex\Application $app) {
 $app->get('/{locale}/pintura', function (Silex\Application $app) {
     $pinturaService = new \SylviaEstruch\Service\PinturaService($app['db']);
     $cats = $pinturaService->getCategories();
-    var_dump($cats); exit();
-    return $app['twig']->render('static/home.html.twig');
+    $paintings = $pinturaService->getCategoryPaintings(6);
+
+    return $app['twig']->render('pintura/categoria.html.twig', array(
+        'cats' => $cats,
+    ));
 })->bind('pintura');
+
+$app->get('/{locale}/pintura/{id}/{slug}', function (Silex\Application $app, $id) {
+    $pinturaService = new \SylviaEstruch\Service\PinturaService($app['db']);
+    $cats = $pinturaService->getCategories();
+    $paintings = $pinturaService->getCategoryPaintings($id);
+
+    return $app['twig']->render('pintura/categoria.html.twig', array(
+        'cats' => $cats,
+    ));
+})->bind('pintura_categoria');
 
 $app->get('/{locale}/teatro', function (Silex\Application $app) {
     return $app['twig']->render('static/home.html.twig');
