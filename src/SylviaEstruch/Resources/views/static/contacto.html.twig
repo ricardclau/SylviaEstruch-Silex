@@ -5,9 +5,9 @@
         <form id="frm_contacto" method="post" action="{{ app.request.uri }}">
             <ul>
                 <li><label for="nombre">{{ 'contacto.nombre' | trans }}</label><input id="nombre" type="text" name="nombre"></li>
-                <li><label for="email">{{ 'contacto.email' | trans }}</label><input id="email" type="text" name="email"></li>
+                <li><label for="email">{{ 'contacto.email' | trans }}</label><input id="email" type="email" name="email"></li>
                 <li><label for="texto">{{ 'contacto.mensaje' | trans }}</label><textarea id="texto" name="texto" rows="5" cols="40"></textarea></li>
-                <li><input type="button" id="Enviar" name="Enviar" value="{{ 'contacto.enviar' | trans }}"></li>
+                <li><input type="submit" id="Enviar" name="Enviar" value="{{ 'contacto.enviar' | trans }}"></li>
             </ul>
         </form>
     </article>

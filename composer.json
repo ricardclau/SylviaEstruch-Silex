@@ -12,6 +12,6 @@
         "doctrine/dbal": "*"
     },
     "autoload": {
-        "psr-0": { "SylviaEstruch": "/../src/" }
+        "psr-0": { "SylviaEstruch": "src" }
     }
 }

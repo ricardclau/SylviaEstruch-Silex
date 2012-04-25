@@ -27,32 +27,20 @@ $(document).ready(function() {
        }
     });
 
-    $('#Enviar').click(function() {
-      var e_nom = $('#nombre'), e_mail = $('#mail'), e_text = $('#texto');
-      var regexpmail = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-      if(e_nom.val() == '') {
-          alert(contacto.name_err); e_nom.focus(); return false;
-      }
-      if(e_mail.val() == '') {
-          alert(contacto.mail_err1); e_mail.focus(); return false;
-      }
-      if(!regexpmail.test(e_mail.val())) {
-          alert(contacto.mail_err2); e_mail.focus(); return false;
-      }
-      if(e_text.val() == '') {
-          alert(contacto.text_err); e_text.focus(); return false;
-      }
+    $('#frm_contacto').submit(function() {
+        $.ajax({
+            type: 'POST',
+            url:  $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(data, textStatus, jqXHR) {
+                alert('OK');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('error');
+            }
+        });
 
-      $.post('/contacto/mail',$('#frm_contacto').serialize(),function(data) {          
-          if($.trim(data) == 'OK') {
-              alert(contacto.msg_ok);
-          } else {
-              alert(contacto.msg_err);
-          }
-      });
-      return true;
-    }).ajaxError(function() {       
-       alert(contacto.msg_err);
+        return false;
     });
 });
 
