@@ -3,7 +3,7 @@
 {% block subsections %}
 <ul class="subsections clearfix">
     {% for cat in cats %}
-        <li><a href="/{{ app.session.get('locale') }}/{{ cat.id }}/{{ attribute(cat, ['title', app.session.get('locale')] | join('_')) }}">{{ attribute(cat, ['title', app.session.get('locale')] | join('_')) }}</a></li>
+        <li><a href="/{{ app.session.get('locale') }}/{{ 'common.secciones.pintura' | trans | lower }}/{{ cat.id }}/{{ attribute(cat, ['title', app.session.get('locale')] | join('_')) }}">{{ attribute(cat, ['title', app.session.get('locale')] | join('_')) }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

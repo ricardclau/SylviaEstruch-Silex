@@ -40,20 +40,21 @@ $app->get('/{locale}/frases.js', function (Silex\Application $app) {
 /**
  * Renders contact form
  */
-$app->get('/{locale}/contacto', function (Silex\Application $app) {
+$app->get('/{locale}/{section}', function (Silex\Application $app) {
     return $app['twig']->render('static/contacto.html.twig');
 })
 ->bind('contacto')
-->assert('locale', $app['config.locales.regexp']);
+->assert('locale', $app['config.locales.regexp'])
+->assert('section', 'contacto|contacte|contact');
 
 /**
  * Sends e-mail and returns a json response
  */
-$app->post('/{locale}/contacto', function (Silex\Application $app) {
+$app->post('/{locale}/{section}', function (Silex\Application $app) {
     $contactData = array(
         'nombre' => $app['request']->get('nombre'),
         'email'  => $app['request']->get('email'),
-        'texto'  => $app['request']->get('texto'),
+        'mensaje'  => $app['request']->get('mensaje'),
     );
 
     $collectionConstraint = new Constraints\Collection(array(
@@ -75,43 +76,42 @@ $app->post('/{locale}/contacto', function (Silex\Application $app) {
     $errors = $app['validator']->validateValue($contactData, $collectionConstraint);
 
     if (0 === count($errors)) {
+        $message =
+        $app['mailer']->send($message);
         return $app->json(array('msg' => 'OK'), 200, array('content-type' => 'application/json'));
     } else {
-        return $app->json(array('msg' => $errors[0]->getMessage()), 400, array('content-type' => 'application/json'));
+        $jsonerr = array();
+        foreach ($errors as $error) {
+            $jsonerr[$error->getPropertyPath()][] = $app['translator']->trans($error->getMessage());
+        }
+        return $app->json(array('msg' => 'ERROR', 'errors' => $jsonerr) , 400, array('content-type' => 'application/json'));
     }
 })
-->bind('contacto_enviar');
+->bind('contacto_enviar')
+->assert('locale', $app['config.locales.regexp'])
+->assert('section', 'contacto|contacte|contact');;
 
 /**
  * Biography section
  */
-$app->get('/{locale}/biografia', function (Silex\Application $app) {
+$app->get('/{locale}/{section}', function (Silex\Application $app) {
     return $app['twig']->render('static/home.html.twig');
 })
 ->bind('biografia')
-->assert('locale', $app['config.locales.regexp']);
+->assert('locale', $app['config.locales.regexp'])
+->assert('section', 'biografia|biografía|biography');
 
 /**
- * Paintings section (defaults to newest paintings)
+ * Painting page, works both for specific id and even without id and slug (which defaults to category 6)
  */
-$app->get('/{locale}/pintura', function (Silex\Application $app) {
+$app->get('/{locale}/{section}/{id}/{slug}', function (Silex\Application $app, $id) {
     $pinturaService = new \SylviaEstruch\Service\PinturaService($app['db']);
-    $cats = $pinturaService->getCategories();
-    $paintings = $pinturaService->getCategoryPaintings(6);
 
-    return $app['twig']->render('pintura/categoria.html.twig', array(
-        'cats' => $cats,
-        'paintings' => $paintings,
-    ));
-})
-->bind('pintura')
-->assert('locale', $app['config.locales.regexp']);
+    $cat = $pinturaService->getCategory($id);
+    if (empty($cat)) {
+        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Category does not exist');
+    }
 
-/**
- * Painting specific category page
- */
-$app->get('/{locale}/pintura/{id}/{slug}', function (Silex\Application $app, $id) {
-    $pinturaService = new \SylviaEstruch\Service\PinturaService($app['db']);
     $cats = $pinturaService->getCategories();
     $paintings = $pinturaService->getCategoryPaintings($id);
 
@@ -120,30 +120,21 @@ $app->get('/{locale}/pintura/{id}/{slug}', function (Silex\Application $app, $id
         'paintings' => $paintings,
     ));
 })
-->bind('pintura_categoria')
-->assert('locale', $app['config.locales.regexp']);
+->bind('pintura')
+->value('id', 6)
+->value('slug', null)
+->assert('locale', $app['config.locales.regexp'])
+->assert('section', 'pintura|painting');
 
 /**
- * Theater section (defaults to first category)
+ * Theater page, works both for specific category web page and generic theater page (which defaults to category 1)
  */
-$app->get('/{locale}/teatro', function (Silex\Application $app) {
+$app->get('/{locale}/{section}/{id}/{slug}', function (Silex\Application $app, $id) {
     $teatroService = new \SylviaEstruch\Service\TeatroService($app['db']);
-    $cats = $teatroService->getCategories();
-    $teatros = $teatroService->getCategoryPerformances(1);
-
-    return $app['twig']->render('teatro/categoria.html.twig', array(
-        'cats' => $cats,
-        'teatros' => $teatros,
-    ));
-})
-->bind('teatro')
-->assert('locale', $app['config.locales.regexp']);
-
-/**
- * Theater specific category web page
- */
-$app->get('/{locale}/teatro/{id}/{slug}', function (Silex\Application $app, $id) {
-    $teatroService = new \SylviaEstruch\Service\TeatroService($app['db']);
+    $cat = $teatroService->getCategory($id);
+    if (empty($cat)) {
+        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Category does not exist');
+    }
     $cats = $teatroService->getCategories();
     $teatros = $teatroService->getCategoryPerformances($id);
 
@@ -152,8 +143,11 @@ $app->get('/{locale}/teatro/{id}/{slug}', function (Silex\Application $app, $id)
         'teatros' => $teatros,
     ));
 })
-->bind('teatro_categoria')
-->assert('locale', $app['config.locales.regexp']);
+->bind('teatro')
+->value('id', 1)
+->value('slug', null)
+->assert('locale', $app['config.locales.regexp'])
+->assert('section', 'teatro|teatre|theater');
 
 /**
  * Renders design category

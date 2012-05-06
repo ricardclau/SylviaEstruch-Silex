@@ -13,16 +13,14 @@ $app = new Application();
 $app['debug'] = true;
 $app['config.locales'] = array('ca', 'es', 'en');
 $app['config.locales.regexp'] = 'ca|es|en';
-/**
- * Charset?
- */
+
 $app['db.options'] = array(
     'driver'   => 'pdo_mysql',
     'dbname'   => 'sylviaestruch',
     'host'     => 'localhost',
     'user'     => 'root',
     'password' => null,
-    'charset'  => 'utf-8',
+    'charset'  => 'utf8',
 );
 
 /**
@@ -32,6 +30,7 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
+$app->register(new Silex\Provider\SwiftmailerServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.class_path' => __DIR__ . '/../vendor/twig/twig/lib',
     'twig.path'       => array(

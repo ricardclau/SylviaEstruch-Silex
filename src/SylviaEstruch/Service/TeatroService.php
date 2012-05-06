@@ -35,6 +35,16 @@ class TeatroService
         return $this->db->fetchAll($sql);
     }
 
+    public function getCategory($catId)
+    {
+        $sql = 'SELECT * FROM categorias_teatro where id = :catId';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue('catId', $catId);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
     public function getCategoryPerformances($catId)
     {
         $sql = 'SELECT * FROM teatros where categorias_teatro_id = :catId';
