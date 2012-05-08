@@ -41,6 +41,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     ),
 ));
 $app['twig']->addExtension(new Symfony\Bridge\Twig\Extension\RoutingExtension($app['url_generator']));
+$app['twig']->addExtension(new SylviaEstruch\Twig\Extension\WebExtension());
 
 /**
  * Before filter setting language from URL
