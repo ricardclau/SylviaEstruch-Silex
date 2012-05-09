@@ -48,10 +48,12 @@
     </nav>
     {% block content %}{% endblock %}
     <footer>www.sylviaestruch.com</footer>
+    {% block javascripts %}
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/jquery.lightbox-0.5.pack.js"></script>
     <script type="text/javascript" src="/js/funciones.js"></script>
     <script type="text/javascript" src="{{ path('frasesjs', {'locale' : app.session.get('locale') }) }}"></script>
+    {% endblock %}
 </div>
 </body>
 </html>

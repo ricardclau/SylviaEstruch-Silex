@@ -1,21 +1,30 @@
 {% extends 'layout.html.twig' %}
 {% block content %}
-<section>
-    <article class="contact_form">
+<section class="contacto">
+    <article id="contact_form" class="opacity90">
         <form id="frm_contacto" method="post" action="{{ app.request.uri }}">
             <ul>
-                <li><label for="nombre">{{ 'contacto.nombre' | trans }}</label><input id="nombre" type="text" name="nombre"></li>
-                <li><label for="email">{{ 'contacto.email' | trans }}</label><input id="email" type="email" name="email"></li>
-                <li><label for="mensaje">{{ 'contacto.mensaje' | trans }}</label><textarea id="mensaje" name="mensaje" rows="5" cols="40"></textarea></li>
-                <li><input type="submit" id="Enviar" name="Enviar" value="{{ 'contacto.enviar' | trans }}"></li>
+                <li class="clearfix"><label for="nombre">{{ 'contacto.nombre' | trans }}</label><input id="nombre" type="text" name="nombre" required="true"></li>
+                <li class="clearfix"><label for="email">{{ 'contacto.email' | trans }}</label><input id="email" type="email" name="email" required="true"></li>
+                <li class="clearfix"><label for="mensaje">{{ 'contacto.mensaje' | trans }}</label><textarea id="mensaje" name="mensaje" rows="5" cols="40" required="true"></textarea></li>
+                <li class="clearfix submit"><input type="submit" id="Enviar" name="Enviar" value="{{ 'contacto.enviar' | trans }}"></li>
             </ul>
         </form>
     </article>
-    <article class="contact_info">
-        <p>Sylvia Estruch Hermán</p>
+    <article id="contact_info" class="opacity90">
+        <p><strong>Sylvia Estruch Hermán</strong></p>
         <p>{{ 'contacto.estudio' | trans }}</p>
         <p>{{ 'contacto.contactar' | trans }}</p>
-        <p>sylviaestruch@hotmail.com</p>
+        <p><strong>sylviaestruch@hotmail.com</strong></p>
     </article>
 </section>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    $(document).ready(function() {
+       $('#nombre').focus();
+    });
+</script>
 {% endblock %}

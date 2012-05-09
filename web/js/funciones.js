@@ -33,10 +33,15 @@ $(document).ready(function() {
             url:  $(this).attr('action'),
             data: $(this).serialize(),
             success: function(data, textStatus, jqXHR) {
-                alert('OK');
+                alert(data.msg);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert('error');
+                var msg = 'Error:\n';
+                var jsonResponse = jQuery.parseJSON(jqXHR.responseText);
+                $.each(jsonResponse.errors, function(index, value) {
+                    msg += $('label[for='+ index.replace('[', '').replace(']', '') + ']').html() + ': ' + value + '\n';
+                });
+                alert(msg);
             }
         });
 

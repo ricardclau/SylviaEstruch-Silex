@@ -9,7 +9,9 @@
         "symfony/config": "*",
         "symfony/validator": ">2.0",
         "symfony/twig-bridge": ">2.0",
-        "doctrine/dbal": "*"
+        "symfony/framework-bundle": ">2.0",
+        "doctrine/dbal": "*",
+        "swiftmailer/swiftmailer": "*"
     },
     "autoload": {
         "psr-0": { "SylviaEstruch": "src" }

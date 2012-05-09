@@ -90,3 +90,69 @@ section {
     clear: both;
     content: ".";
 }
+
+.opacity90 {
+    filter: alpha(opacity=90);
+    opacity: 0.9;
+}
+
+section.contacto {
+    background-image: url('/images/cuadro.jpg');
+    width: 1000px;
+    height: 500px;
+}
+
+#contact_form {
+    float:left;
+    margin: 60px 30px 30px 100px;
+    padding: 20px;
+    background-color: white;
+    width: 400px;
+}
+
+#contact_info {
+    float:left;
+    background-color: white;
+    width: 250px;
+    margin: 60px 30px 30px;
+    padding: 20px;
+    font-size: 12px;
+    color: #6c6c6c;
+}
+
+#frm_contacto ul {
+    padding: 0;
+}
+
+#frm_contacto li {
+    list-style: none;
+    margin: 5px;
+    padding: 2px;
+}
+
+#frm_contacto li.submit {
+    text-align: center;
+}
+
+#frm_contacto label {
+    width: 110px;
+    text-align: right;
+    float: left;
+    font-size: 12px;
+    color: #6c6c6c;
+    padding: 3px;
+    margin-right: 10px;
+}
+
+#frm_contacto input, #frm_contacto textarea {
+    float: left;
+    font-size: 12px;
+    color: #6c6c6c;
+    border: 1px solid #6c6c6c;
+    width: 240px;
+}
+
+#frm_contacto input[type=submit] {
+    width: auto;
+    float: none;
+}

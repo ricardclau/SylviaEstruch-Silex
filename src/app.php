@@ -1,6 +1,7 @@
 <?php
 
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @var Silex\Application
@@ -30,7 +31,10 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
-$app->register(new Silex\Provider\SwiftmailerServiceProvider());
+$app->register(new Silex\Provider\SwiftmailerServiceProvider(), array(
+    'swiftmailer.class_path'  => __DIR__.'/../vendor/swiftmailer/swiftmailer/lib/classes',
+));
+$app['swiftmailer.transport'] = \Swift_SendmailTransport::newInstance();
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.class_path' => __DIR__ . '/../vendor/twig/twig/lib',
     'twig.path'       => array(
@@ -69,6 +73,11 @@ $app->before(function () use ($app) {
         'es' => __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.es.yml',
         'en' => __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.en.yml',
     );
+
+    $app['translator']->addLoader('xlf', new Symfony\Component\Translation\Loader\XliffFileLoader());
+    $app['translator']->addResource('xlf', __DIR__ . '/../vendor/symfony/framework-bundle/Symfony/Bundle/FrameworkBundle/Resources/translations/validators.es.xlf', 'es', 'validators');
+    $app['translator']->addResource('xlf', __DIR__ . '/../vendor/symfony/framework-bundle/Symfony/Bundle/FrameworkBundle/Resources/translations/validators.ca.xlf', 'ca', 'validators');
+    $app['translator']->addResource('xlf', __DIR__ . '/../vendor/symfony/framework-bundle/Symfony/Bundle/FrameworkBundle/Resources/translations/validators.en.xlf', 'en', 'validators');
 
     /**
      * Translator must be sent to Twig after setting up everything

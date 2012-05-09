@@ -76,15 +76,22 @@ $app->post('/{locale}/{section}', function (Silex\Application $app) {
     $errors = $app['validator']->validateValue($contactData, $collectionConstraint);
 
     if (0 === count($errors)) {
-        $message =
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Missatge rebut des de la web www.sylviaestruch.com')
+            ->setFrom(array($contactData['email'] => $contactData['nombre']))
+            ->setTo('ricard.clau@gmail.com')
+            ->setBody($contactData['mensaje'])
+                ;
+
         $app['mailer']->send($message);
-        return $app->json(array('msg' => 'OK'), 200, array('content-type' => 'application/json'));
+
+        return $app->json(array('msg' => $app['translator']->trans('contacto.mailok')), 200, array('content-type' => 'application/json'));
     } else {
         $jsonerr = array();
         foreach ($errors as $error) {
-            $jsonerr[$error->getPropertyPath()][] = $app['translator']->trans($error->getMessage());
+            $jsonerr[$error->getPropertyPath()][] = $app['translator']->trans($error->getMessage(), array(), 'validators');
         }
-        return $app->json(array('msg' => 'ERROR', 'errors' => $jsonerr) , 400, array('content-type' => 'application/json'));
+        return $app->json(array('msg' => 'ERROR', 'errors' => $jsonerr), 400, array('content-type' => 'application/json'));
     }
 })
 ->bind('contacto_enviar')
