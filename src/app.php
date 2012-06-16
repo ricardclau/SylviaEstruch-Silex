@@ -36,7 +36,6 @@ $app->register(new Silex\Provider\SwiftmailerServiceProvider(), array(
 ));
 $app['swiftmailer.transport'] = \Swift_SendmailTransport::newInstance();
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.class_path' => __DIR__ . '/../vendor/twig/twig/lib',
     'twig.path'       => array(
         __DIR__ . '/../src/SylviaEstruch/Resources/views',
     ),
@@ -64,15 +63,14 @@ $app->before(function () use ($app) {
      */
     $app->register(new Silex\Provider\TranslationServiceProvider(), array(
         'locale_fallback' => 'en', // Default locale
-        'translation.class_path' => __DIR__ . '/../vendor/symfony/translation',
     ));
 
-    $app['translator.loader'] = new Symfony\Component\Translation\Loader\YamlFileLoader();
-    $app['translator.messages'] = array(
+    $app['translator.domains'] = array('messages' => array(
         'ca' => __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.ca.yml',
         'es' => __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.es.yml',
         'en' => __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.en.yml',
-    );
+    ));
+    $app['translator.loader'] = new Symfony\Component\Translation\Loader\YamlFileLoader();
 
     $app['translator']->addLoader('xlf', new Symfony\Component\Translation\Loader\XliffFileLoader());
     $app['translator']->addResource('xlf', __DIR__ . '/../vendor/symfony/framework-bundle/Symfony/Bundle/FrameworkBundle/Resources/translations/validators.es.xlf', 'es', 'validators');

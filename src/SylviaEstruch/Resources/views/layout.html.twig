@@ -38,8 +38,8 @@
         <ul class="sections clearfix">
             <li><a href="{{ path('biografia', {'locale' : app.session.get('locale'), 'section' : 'common.secciones.biografia' | trans | lower }) }}">{{ 'common.secciones.biografia' | trans }}</a></li>
             <li><a href="{{ path('pintura', {'locale' : app.session.get('locale'),  'section' : 'common.secciones.pintura' | trans | lower }) }}">{{ 'common.secciones.pintura' | trans }}</a></li>
-            <li><a href="{{ path('restauracion', {'locale' : app.session.get('locale') }) }}">{{ 'common.secciones.restauracion' | trans }}</a></li>
-            <li><a href="{{ path('disenyo', {'locale' : app.session.get('locale') }) }}">{{ 'common.secciones.diseño' | trans }}</a></li>
+            <li><a href="{{ path('restauracion', {'locale' : app.session.get('locale'),  'section' : 'common.secciones.restauracion' | trans | lower }) }}">{{ 'common.secciones.restauracion' | trans }}</a></li>
+            <li><a href="{{ path('disenyo', {'locale' : app.session.get('locale'),  'section' : 'common.secciones.diseño' | trans | lower }) }}">{{ 'common.secciones.diseño' | trans }}</a></li>
             <li><a href="{{ path('teatro', {'locale' : app.session.get('locale'),  'section' : 'common.secciones.teatro' | trans | lower  }) }}">{{ 'common.secciones.teatro' | trans }}</a></li>
             <li><a href="{{ path('contacto' , {'locale' : app.session.get('locale'),  'section' : 'common.secciones.contacto' | trans | lower }) }}">{{ 'common.secciones.contacto' | trans }}</a></li>
         </ul>
