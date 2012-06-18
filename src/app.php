@@ -29,12 +29,14 @@ $app['db.options'] = array(
  */
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
-$app->register(new Silex\Provider\SwiftmailerServiceProvider(), array(
-    'swiftmailer.class_path'  => __DIR__.'/../vendor/swiftmailer/swiftmailer/lib/classes',
-));
-$app['swiftmailer.transport'] = \Swift_SendmailTransport::newInstance();
+$app->register(new Silex\Provider\SwiftmailerServiceProvider());
+$app['swiftmailer.transport'] = $app->share(function () use ($app) {
+    return \Swift_SendmailTransport::newInstance();
+});
+
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path'       => array(
         __DIR__ . '/../src/SylviaEstruch/Resources/views',
@@ -65,17 +67,19 @@ $app->before(function () use ($app) {
         'locale_fallback' => 'en', // Default locale
     ));
 
-    $app['translator.domains'] = array('messages' => array(
-        'ca' => __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.ca.yml',
-        'es' => __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.es.yml',
-        'en' => __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.en.yml',
-    ));
-    $app['translator.loader'] = new Symfony\Component\Translation\Loader\YamlFileLoader();
+    $app['translator'] = $app->share($app->extend('translator', function($translator, $app) {
+        $translator->addLoader('yaml', new Symfony\Component\Translation\Loader\YamlFileLoader());
 
-    $app['translator']->addLoader('xlf', new Symfony\Component\Translation\Loader\XliffFileLoader());
-    $app['translator']->addResource('xlf', __DIR__ . '/../vendor/symfony/framework-bundle/Symfony/Bundle/FrameworkBundle/Resources/translations/validators.es.xlf', 'es', 'validators');
-    $app['translator']->addResource('xlf', __DIR__ . '/../vendor/symfony/framework-bundle/Symfony/Bundle/FrameworkBundle/Resources/translations/validators.ca.xlf', 'ca', 'validators');
-    $app['translator']->addResource('xlf', __DIR__ . '/../vendor/symfony/framework-bundle/Symfony/Bundle/FrameworkBundle/Resources/translations/validators.en.xlf', 'en', 'validators');
+        $translator->addResource('yaml', __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.es.yml', 'es', 'messages');
+        $translator->addResource('yaml', __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.ca.yml', 'ca', 'messages');
+        $translator->addResource('yaml', __DIR__ . '/../src/SylviaEstruch/Resources/translations/messages.en.yml', 'en', 'messages');
+
+        $translator->addResource('xliff', __DIR__ . '/../vendor/symfony/form/Symfony/Component/Form/Resources/translations/validators.es.xlf', 'es', 'validators');
+        $translator->addResource('xliff', __DIR__ . '/../vendor/symfony/form/Symfony/Component/Form/Resources/translations/validators.ca.xlf', 'ca', 'validators');
+        $translator->addResource('xliff', __DIR__ . '/../vendor/symfony/form/Symfony/Component/Form/Resources/translations/validators.en.xlf', 'en', 'validators');
+
+        return $translator;
+    }));
 
     /**
      * Translator must be sent to Twig after setting up everything

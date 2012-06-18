@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
 $users = array(
     'test' => 'test',
 );
@@ -24,7 +26,7 @@ $app->get('/admin/logout', function (Silex\Application $app) {
 $app->get('/admin/login', function (Silex\Application $app) {
     return $app['twig']->render('admin/login.html.twig');
 })
-->middleware($mustBeAnonymous);
+->before($mustBeAnonymous);
 
 $app->post('/admin/login', function (Silex\Application $app) {
     $loginok = false;
@@ -37,10 +39,16 @@ $app->post('/admin/login', function (Silex\Application $app) {
         $app['session']->set('userId', $login);
     }
 
-    if ($loginok) {
-        return $app->redirect('/admin/menu');
+    if (true === $loginok) {
+        return $app->redirect('/admin');
     } else {
         return $app->redirect('/admin/login');
     }
 })
-->middleware($mustBeAnonymous);
+->before($mustBeAnonymous);
+
+
+$app->get('/admin', function (Silex\Application $app) {
+    return 'admin area';
+})
+->before($mustBeLogged);
