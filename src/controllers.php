@@ -76,6 +76,8 @@ $app->post('/{locale}/{section}', function (Silex\Application $app) {
     $errors = $app['validator']->validateValue($contactData, $collectionConstraint);
 
     if (0 === count($errors)) {
+        require_once __DIR__ . '/../vendor/swiftmailer/swiftmailer/lib/swift_init.php';
+
         $message = \Swift_Message::newInstance()
             ->setSubject('Missatge rebut des de la web www.sylviaestruch.com')
             ->setFrom(array($contactData['email'] => $contactData['nombre']))
@@ -159,17 +161,19 @@ $app->get('/{locale}/{section}/{id}/{slug}', function (Silex\Application $app, $
 /**
  * Renders design category
  */
-$app->get('/{locale}/diseño', function (Silex\Application $app) {
+$app->get('/{locale}/{section}', function (Silex\Application $app) {
     return $app['twig']->render('static/home.html.twig');
 })
 ->bind('disenyo')
-->assert('locale', $app['config.locales.regexp']);
+->assert('locale', $app['config.locales.regexp'])
+->assert('section', 'diseño|disseny|design');
 
 /**
  * Renders restoration category
  */
-$app->get('/{locale}/restauracion', function (Silex\Application $app) {
+$app->get('/{locale}/{section}', function (Silex\Application $app) {
     return $app['twig']->render('static/home.html.twig');
 })
 ->bind('restauracion')
-->assert('locale', $app['config.locales.regexp']);
+->assert('locale', $app['config.locales.regexp'])
+->assert('section', 'restauración|restoration|restauració');
