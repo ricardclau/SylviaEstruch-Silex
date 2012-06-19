@@ -76,8 +76,6 @@ $app->post('/{locale}/{section}', function (Silex\Application $app) {
     $errors = $app['validator']->validateValue($contactData, $collectionConstraint);
 
     if (0 === count($errors)) {
-        require_once __DIR__ . '/../vendor/swiftmailer/swiftmailer/lib/swift_init.php';
-
         $message = \Swift_Message::newInstance()
             ->setSubject('Missatge rebut des de la web www.sylviaestruch.com')
             ->setFrom(array($contactData['email'] => $contactData['nombre']))
